@@ -340,7 +340,7 @@ function Main(props) {
           </div>
           <div style={{ fontSize: 22 }}>
             <h1>User Details</h1>
-            <ul>
+            <ul style={{padding:30}}>
               <li>
                 Total Token :{" "}
                 {getUserDetails === ""
