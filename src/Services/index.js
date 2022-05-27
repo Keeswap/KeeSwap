@@ -1,6 +1,6 @@
 import Web3 from "web3";
 import { store } from "../Redux/store";
-
+import { provider } from "../Services/web3Connection";
 import {
   ConnectWallet,
   isConnectWallet,
