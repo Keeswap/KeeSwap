@@ -1,0 +1,31 @@
+.btnCls{
+    width:30%;
+    padding:20px;
+    background:cornflowerblue;
+    font-size:20px;
+    border-radius:20px;
+    border:none;
+    color:white;
+    font-weight:bold;
+   
+
+}
+.widthCls{
+    width:40%;
+}
+.ball {
+    animation: bounce 0s;
+    animation-direction: alternate;
+    animation-timing-function: cubic-bezier(1, 1, 1, 1);
+    animation-iteration-count: infinite;
+}
+@media only screen and (max-width: 800px) {
+    .btnCls{
+        width:100%;
+
+    
+    }
+    .widthCls{
+        width:60%;
+    }
+  }

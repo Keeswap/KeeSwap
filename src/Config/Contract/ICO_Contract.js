@@ -1,0 +1,3 @@
+export const busdContract = "0x10ff56C522E3f69F469b53175ACD964B40257598";
+export const keeswap = "0x307c9775E80BE16A99fA10a9043673611D1ebECB";
+export const ico = "0xbFacA1A70DB726330bBA84bf6e0D0E7D2416e76A";
