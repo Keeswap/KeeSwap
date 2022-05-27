@@ -6,4 +6,3 @@ export const keeswap = "0x4968f965d8857d68f63272c6e5c88cdc237fb875";
 
 // export const ico = "0xbFacA1A70DB726330bBA84bf6e0D0E7D2416e76A";
 export const ico = "0xdbfee999ed63c1c2f0829f889f6ba44aa64fc83a";
-.
