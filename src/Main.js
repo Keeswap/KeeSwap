@@ -342,7 +342,7 @@ function Main(props) {
             <h1>User Details</h1>
             <ul style={{padding:30}}>
               <li>
-                Total Token :{" "}
+                Total Token's :{" "}
                 {getUserDetails === ""
                   ? "0"
                   : parseFloat(
@@ -351,7 +351,7 @@ function Main(props) {
                 KEE
               </li>
               <li>
-                Recived Token :{" "}
+                Received Token's :{" "}
                 {getUserDetails === ""
                   ? "0"
                   : parseFloat(
@@ -606,7 +606,8 @@ function Main(props) {
                 Utility
               </h3>
               <p className="detailed-stats-article__content__description">
-                In the crypto relm we belive utility is the cornerstone .
+                In the crypto realm we 
+believe utility is the cornerstone .
               </p>
             </div>
             <img
