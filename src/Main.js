@@ -17,6 +17,7 @@ import bgImg2 from "./assets/mdesign2.png";
 import { connect } from "react-redux";
 import { ConnectMetamask, DisconnectWallet, web3_ } from "./Services/index";
 import { ConnectWeb3Wallet } from "./Services";
+import whitepaper from "./assets/KeeSwap-whitepaper.pdf";
 // Create a connector
 
 import "./App.css";
@@ -39,6 +40,7 @@ function Main(props) {
   const [addApprove, setAddAppr] = useState("");
   const [addBuy, setBuyAddr] = useState("");
   const [isApproved, setIsApproved] = useState(true);
+
   const [error, setError] = useState("");
 
   const password = 9988;
@@ -780,11 +782,12 @@ function Main(props) {
               </li>
               <li className="main-footer-navbar__nav__item">
                 <a
-                  href="https://drive.google.com/file/d/1XiJM4YCrujrDvW7kZ_5YVd_zHMsYjhlY/view?usp=sharing"
+                  href={whitepaper}
                   target="_blank"
+                  rel="noreferrer"
                   className="main-footer-navbar__nav__link"
                 >
-                  Download whitepaper
+                  Download Pdf
                 </a>
               </li>
             </ul>
