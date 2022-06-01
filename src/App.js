@@ -8,7 +8,11 @@ export default function App() {
     <>
       <Routes>
         <Route exact path="/" element={<Main />} />
-        <Route path="/keeswap/admin_/test/vesting" element={<Vesting />} />
+        <Route
+          exact
+          path="/keeswap/admin_/test/vesting"
+          element={<Vesting />}
+        />
       </Routes>
     </>
   );

@@ -579,6 +579,8 @@ button[disabled]{
   max-width: 1000px;
   font-size:16px;
   color:white;
+  background-color:transparent;
+  border:none;
   
 }
 
@@ -600,7 +602,7 @@ button[disabled]{
 /* Setting the border of top, bottom, left */
 .card:nth-child(odd)::before {
   left: 0px;
-  top: -4.5px;
+  top: -5.5px;
   bottom: -4.5px;
   border-width: 5px 0 5px 5px;
   border-radius: 50px 0 0 50px;
@@ -1258,6 +1260,9 @@ button[disabled]{
   }
 }
 @media screen and (min-width: 1200px) {
+  .main-footer .copy-and-social .social-icons{
+    justify-content: start;
+  }
   .main-container {
     padding: 5px 0;
   }
@@ -1423,6 +1428,9 @@ button[disabled]{
 }
 }
 @media (max-width:600px) { 
+  .main-footer .copy-and-social .social-icons{
+    justify-content: space-evenly;
+  }
   .disconnectButton{
     margin-top:10px !important;
   }

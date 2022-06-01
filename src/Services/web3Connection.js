@@ -5,7 +5,7 @@ export const provider = new WalletConnectProvider({
   infuraId: "28a21010f56f4c7e8561ab6a8797ebe4",
   bridge: "https://bridge.walletconnect.org",
   rpc: {
-    56: "https://bsc-dataseed1.binance.org/",
+    97: "https://data-seed-prebsc-1-s1.binance.org:8545/",
   },
   qrcode: true,
   qrcodeModalOptions: {

@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React from "react"; 
+import React from "react";
 
 import logo from "./assets/logokeeswapfinal.png";
 import bgImg from "./assets/mdesign.png";
@@ -29,6 +29,7 @@ import { store } from "./Redux/store";
 import { useNavigate } from "react-router-dom";
 function Main(props) {
   const [connect, setConnect] = useState(false);
+  const [icoOver, setIsICOOver] = useState(false);
   const [isApprovedBuy, setIsApprovedBuy] = useState(true);
   const [token, setToken] = useState("");
   const [spinnerAppr, setSpinnerAppr] = useState(false);
@@ -67,7 +68,7 @@ function Main(props) {
         autocapitalize: "off",
       },
       showCancelButton: true,
-      confirmButtonText: "Look up",
+      confirmButtonText: "Login",
       showLoaderOnConfirm: true,
       preConfirm: (login) => {
         if (parseInt(login) == password) {
@@ -81,7 +82,7 @@ function Main(props) {
     }).then((result) => {
       if (!result.isConfirmed) {
         Swal.fire({
-          title: `Invalid Pin`,
+          title: `Please Login Again`,
         });
       }
     });
@@ -124,14 +125,26 @@ function Main(props) {
     setAddAppr(addAppr);
 
     await new web3_.eth.Contract(icoAbi, ico).methods
-      .ClaimTrackDataset(props.metamaskAddress)
+      .vestingCounter()
       .call()
 
       // get New Contract Address
       .then(async (res) => {
-        setUserDetails(res);
-        console.log(res.claimed);
+        // alert(res);
 
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    await new web3_.eth.Contract(icoAbi, ico).methods
+      .isIcoOver()
+      .call()
+
+      // get New Contract Address
+      .then(async (res) => {
+        // alert(res);
+        setIsICOOver(res);
         console.log(res);
       })
       .catch((err) => {
@@ -146,40 +159,55 @@ function Main(props) {
       setIsApproved(true);
       setIsApprovedBuy(true);
     } else {
+      let res = await new web3_.eth.Contract(busdAbi, busdContract).methods
+        .balanceOf(props.metamaskAddress)
+        .call();
+
+      console.log(res / Math.pow(10, 18), token);
       let addAppr = store.getState().ConnectivityReducer.metamaskAddress;
       setAddAppr(addAppr);
 
       const tkn = web3_.utils.toWei(token.toString(), "ether");
       setSpinnerAppr(true);
-
-      await new web3_.eth.Contract(busdAbi, busdContract).methods
-        .approve(ico, tkn)
-        .send({
-          from: props.metamaskAddress,
-        })
-        .on("transactionHash", function (transactionHash) {
-          console.log(transactionHash);
-        })
-        .on("confirmation", () => {})
-        // get New Contract Address
-        .then(async (res) => {
-          Swal.fire("Transaction Successful", "", "success");
-          setIsApproved(false);
-          setSpinnerAppr(false);
-          setIsApprovedBuy(false);
-        })
-        .catch((err) => {
-          console.log(err);
-          Swal.fire(
-            "Transaction Failed",
-            "Please Try After Some Time",
-            "error"
-          );
-          setToken("");
-          setKees("");
-          setIsApproved(true);
-          setSpinnerAppr(false);
-        });
+      console.log(res / Math.pow(10, 18) < parseFloat(token));
+      if (res / Math.pow(10, 18) > parseFloat(token)) {
+        await new web3_.eth.Contract(busdAbi, busdContract).methods
+          .approve(ico, tkn)
+          .send({
+            from: props.metamaskAddress,
+          })
+          .on("transactionHash", function (transactionHash) {
+            console.log(transactionHash);
+          })
+          .on("confirmation", () => {})
+          // get New Contract Address
+          .then(async (res) => {
+            Swal.fire("Transaction Successful", "", "success");
+            setIsApproved(false);
+            setSpinnerAppr(false);
+            setIsApprovedBuy(false);
+          })
+          .catch((err) => {
+            console.log(err);
+            Swal.fire(
+              "Transaction Failed",
+              "Please Try After Some Time",
+              "error"
+            );
+            setToken("");
+            setKees("");
+            setIsApproved(true);
+            setSpinnerAppr(false);
+          });
+      } else {
+        Swal.fire(
+          `Please Enter Atleast ${token} BUSD In Your Account To Intiate This Transaction.`
+        );
+        setToken("");
+        setKees("");
+        setIsApproved(true);
+        setIsApprovedBuy(true);
+      }
     }
   }
 
@@ -328,7 +356,7 @@ function Main(props) {
                 <span className=""> crypto</span>
               </h1>
               <p className="main-header-content-principal__description typewriter">
-                Buy cryptocurrencies, trusted by various users.
+                Buy cryptocurrencies, trusted by Keeswap users.
               </p>
             </div>
 
@@ -338,22 +366,22 @@ function Main(props) {
               className="main-header-content-principal__illustration ball"
             />
           </div>
-          <div style={{ fontSize: 22 }}>
+          {/* <div style={{ fontSize: 22 }}>
             <h1>User Details</h1>
-            <ul style={{padding:30}}>
+            <ul style={{ padding: 30 }}>
               <li>
-                Total Token's :{" "}
+                Total Token :{" "}
                 {getUserDetails === ""
-                  ? "0"
+                  ? "Please Connect To Wallet"
                   : parseFloat(
                       getUserDetails.userTotal / Math.pow(10, 18)
                     ).toFixed(3)}{" "}
                 KEE
               </li>
               <li>
-                Received Token's :{" "}
+                Recived Token :{" "}
                 {getUserDetails === ""
-                  ? "0"
+                  ? "Please Connect To Wallet"
                   : parseFloat(
                       getUserDetails.user10perTGE / Math.pow(10, 18)
                     ).toFixed(3)}{" "}
@@ -362,7 +390,7 @@ function Main(props) {
               <li>
                 Claimed :{" "}
                 {getUserDetails === ""
-                  ? "0"
+                  ? "Please Connect To Wallet"
                   : parseFloat(
                       getUserDetails.claimed / Math.pow(10, 18)
                     ).toFixed(3)}{" "}
@@ -372,7 +400,7 @@ function Main(props) {
                 Vesting Round : {getUserDetails && getUserDetails.vestingRound}
               </li>
             </ul>
-          </div>
+          </div> */}
         </div>
       </header>
       <main className="main-content">
@@ -407,11 +435,10 @@ function Main(props) {
                 Why you should choose
               </h2>
               <p className="why-us-section__content__description">
-                KeeSwap is a deflationary token with buyback mechanism where the
-                token will burn after buyback to increase market price by making
-                the token scars. KeeSwap is all-in-one platform that works on
-                Binance smart chain providing many facilities under an umbrella.
-                Swapping allows converting its token into the desired one.
+                KeeSwap is a deflationary token.KeeSwap is all-in-one platform
+                that works on Binance smart chain providing many facilities
+                under an umbrella. Swapping allows converting its token into the
+                desired one.
               </p>
               {/* <a className="why-us-section__content__btn" onClick={handelPopup}>
                 Buy Now
@@ -419,65 +446,71 @@ function Main(props) {
 
               <div className="flexDiv">
                 <div>
-                  <h3
-                    className="why-us-section__content__title"
-                    style={{ textAlign: "center" }}
-                  >
-                    Buy Keeswap
-                  </h3>
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    <input
-                      type="text"
-                      onChange={handleChange}
-                      placeholder="Enter Amount To Buy"
-                      style={{ padding: 8, marginTop: 10, width: "100%" }}
-                      value={token}
-                    />
-                    <div
-                      style={{
-                        padding: 5,
-                        border: "1px solid black",
-                        width: "85px",
-                        justifyContent: "space-around",
-                        marginTop: "10px",
-                        borderRadius: 7,
-                        marginLeft: 8,
-                        display: "flex",
-                        alignItems: "center",
-                      }}
-                    >
-                      <img src={bnb} width="20" />
-                      <div>BUSD</div>
-                    </div>
-                  </div>
+                  {!icoOver ? (
+                    <>
+                      <h3
+                        className="why-us-section__content__title"
+                        style={{ textAlign: "center" }}
+                      >
+                        Buy Keeswap
+                      </h3>
+                      <div style={{ display: "flex", alignItems: "center" }}>
+                        <input
+                          type="text"
+                          onChange={handleChange}
+                          placeholder="Enter Amount To Buy"
+                          style={{ padding: 8, marginTop: 10, width: "100%" }}
+                          value={token}
+                        />
+                        <div
+                          style={{
+                            padding: 5,
+                            border: "1px solid black",
+                            width: "85px",
+                            justifyContent: "space-around",
+                            marginTop: "10px",
+                            borderRadius: 7,
+                            marginLeft: 8,
+                            display: "flex",
+                            alignItems: "center",
+                          }}
+                        >
+                          <img src={bnb} width="20" />
+                          <div>BUSD</div>
+                        </div>
+                      </div>
 
-                  <span>
-                    <p style={{ color: "red" }}>{error}</p>
-                  </span>
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    <input
-                      type="text"
-                      placeholder={`${kees} Kee`}
-                      style={{ padding: 10, marginTop: 10, width: "100%" }}
-                      disabled
-                    />
-                    <div
-                      style={{
-                        padding: 5,
-                        border: "1px solid black",
-                        width: "85px",
-                        justifyContent: "space-around",
-                        marginTop: "10px",
-                        borderRadius: 7,
-                        marginLeft: 8,
-                        display: "flex",
-                        alignItems: "center",
-                      }}
-                    >
-                      <img src={keeToken} width="20" />
-                      <div>KEE</div>
-                    </div>
-                  </div>
+                      <span>
+                        <p style={{ color: "red" }}>{error}</p>
+                      </span>
+                      <div style={{ display: "flex", alignItems: "center" }}>
+                        <input
+                          type="text"
+                          placeholder={`${kees} Kee`}
+                          style={{ padding: 10, marginTop: 10, width: "100%" }}
+                          disabled
+                        />
+                        <div
+                          style={{
+                            padding: 5,
+                            border: "1px solid black",
+                            width: "85px",
+                            justifyContent: "space-around",
+                            marginTop: "10px",
+                            borderRadius: 7,
+                            marginLeft: 8,
+                            display: "flex",
+                            alignItems: "center",
+                          }}
+                        >
+                          <img src={keeToken} width="20" />
+                          <div>KEE</div>
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <>Sale Is Over</>
+                  )}
                 </div>
 
                 <div className="flexDivBtn">
@@ -523,7 +556,7 @@ function Main(props) {
               src={bgImg2}
               alt
               className="
-      why-us-section__illustration ball"
+                  why-us-section__illustration ball"
             />
           </div>
           {/* Benefits */}
@@ -606,8 +639,7 @@ function Main(props) {
                 Utility
               </h3>
               <p className="detailed-stats-article__content__description">
-                In the crypto realm we 
-believe utility is the cornerstone .
+                In the crypto relm we belive utility is the cornerstone .
               </p>
             </div>
             <img
@@ -761,15 +793,19 @@ believe utility is the cornerstone .
 
           {/* Copy and social links */}
           <div className="copy-and-social">
-            <h3 className="copy-and-social__copy">
+            <h3
+              className="copy-and-social__copy"
+              style={{ color: "aliceblue", fontSize: 8 }}
+            >
               ©2022 KEESWAP. All rights reserved
             </h3>
             <div className="social-icons">
-              <i className="fab fa-facebook-f" />
-              <i className="fab fa-instagram" />
-              <i className="fab fa-youtube" />
-              <i className="fab fa-twitter" />
-              <i className="fab fa-linkedin-in" />
+              <a href="https://t.me/keeswap" target="_blank">
+                <i className="fab fa-telegram" />
+              </a>
+              <a href="https://twitter.com/keeswapofficial" target="_blank">
+                <i className="fab fa-twitter" />
+              </a>
             </div>
           </div>
         </div>
