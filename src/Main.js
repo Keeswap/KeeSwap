@@ -787,7 +787,7 @@ function Main(props) {
                   rel="noreferrer"
                   className="main-footer-navbar__nav__link"
                 >
-                  Download Whitepaper
+                  Download Pdf
                 </a>
               </li>
             </ul>
