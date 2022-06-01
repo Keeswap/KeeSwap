@@ -137,7 +137,8 @@ function Vesting(props) {
       .balanceOf(ico)
       .call();
   }
-  async function retriveUSDTFund() {
+  async function retrive
+  Fund() {
     const { value: token } = await Swal.fire({
       title: "Input Amount You Want To Retrive",
       input: "text",
@@ -281,7 +282,7 @@ function Vesting(props) {
                       onClick={retriveUSDTFund}
                       className="btnCls mx-2 mt-2"
                     >
-                      Click For USDT Retrival
+                      Click For KEE Retrival
                     </button>
                     <div style={{ paddingTop: 20 }}>
                       <h2>User Details</h2>
