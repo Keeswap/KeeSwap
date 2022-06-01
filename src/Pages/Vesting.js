@@ -194,7 +194,7 @@ function Vesting(props) {
             <ul className="main-header-navbar__nav">
               <li className="main-header-navbar__nav__item">
                 <a href="" className="main-header-navbar__nav__link">
-                  Home
+                  Home 
                 </a>
               </li>
               <li>
