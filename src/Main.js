@@ -127,14 +127,14 @@ function Main(props) {
     setAddAppr(addAppr);
 
     await new web3_.eth.Contract(icoAbi, ico).methods
-      .vestingCounter()
+      .ClaimTrackDataset(props.metamaskAddress)
       .call()
 
       // get New Contract Address
       .then(async (res) => {
         // alert(res);
-
-        console.log(res);
+        setUserDetails(res);
+        console.log(res[2] / Math.pow(10, 18));
       })
       .catch((err) => {
         console.log(err);
@@ -368,7 +368,7 @@ function Main(props) {
               className="main-header-content-principal__illustration ball"
             />
           </div>
-          {/* <div style={{ fontSize: 22 }}>
+          <div style={{ fontSize: 22 }}>
             <h1>User Details</h1>
             <ul style={{ padding: 30 }}>
               <li>
@@ -380,7 +380,7 @@ function Main(props) {
                     ).toFixed(3)}{" "}
                 KEE
               </li>
-              <li>
+              {/* <li>
                 Recived Token :{" "}
                 {getUserDetails === ""
                   ? "Please Connect To Wallet"
@@ -388,7 +388,7 @@ function Main(props) {
                       getUserDetails.user10perTGE / Math.pow(10, 18)
                     ).toFixed(3)}{" "}
                 KEE
-              </li>
+              </li> */}
               <li>
                 Claimed :{" "}
                 {getUserDetails === ""
@@ -402,7 +402,7 @@ function Main(props) {
                 Vesting Round : {getUserDetails && getUserDetails.vestingRound}
               </li>
             </ul>
-          </div> */}
+          </div>
         </div>
       </header>
       <main className="main-content">
@@ -787,7 +787,7 @@ function Main(props) {
                   rel="noreferrer"
                   className="main-footer-navbar__nav__link"
                 >
-                  Download Whitepaper
+                  Download Pdf
                 </a>
               </li>
             </ul>
