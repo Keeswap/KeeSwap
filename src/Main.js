@@ -1,4 +1,4 @@
-/* eslint-disable jsx-a11y/alt-text */
+* eslint-disable jsx-a11y/alt-text */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 
@@ -14,10 +14,10 @@ import keeToken from "./assets/keetoken.png";
 import side3 from "./assets/side3.png";
 import Swal from "sweetalert2";
 import bgImg2 from "./assets/mdesign2.png";
+import buy from "./assets/buy.mp4";
 import { connect } from "react-redux";
 import { ConnectMetamask, DisconnectWallet, web3_ } from "./Services/index";
 import { ConnectWeb3Wallet } from "./Services";
-import whitepaper from "./assets/KeeSwap-whitepaper.pdf";
 // Create a connector
 
 import "./App.css";
@@ -40,7 +40,6 @@ function Main(props) {
   const [addApprove, setAddAppr] = useState("");
   const [addBuy, setBuyAddr] = useState("");
   const [isApproved, setIsApproved] = useState(true);
-
   const [error, setError] = useState("");
 
   const password = 9988;
@@ -70,7 +69,7 @@ function Main(props) {
         autocapitalize: "off",
       },
       showCancelButton: true,
-      confirmButtonText: "Login",
+      confirmButtonText: "Look up",
       showLoaderOnConfirm: true,
       preConfirm: (login) => {
         if (parseInt(login) == password) {
@@ -84,7 +83,7 @@ function Main(props) {
     }).then((result) => {
       if (!result.isConfirmed) {
         Swal.fire({
-          title: `Please Login Again`,
+          title: `Invalid Pin`,
         });
       }
     });
@@ -127,14 +126,14 @@ function Main(props) {
     setAddAppr(addAppr);
 
     await new web3_.eth.Contract(icoAbi, ico).methods
-      .ClaimTrackDataset(props.metamaskAddress)
+      .vestingCounter()
       .call()
 
       // get New Contract Address
       .then(async (res) => {
         // alert(res);
-        setUserDetails(res);
-        console.log(res[2] / Math.pow(10, 18));
+
+        console.log(res);
       })
       .catch((err) => {
         console.log(err);
@@ -337,6 +336,7 @@ function Main(props) {
                 <a
                   className="main-header-navbar__nav__link disconnectButton"
                   style={{
+          
                     borderRadius: "20px",
                     border: "1px solid green",
                     padding: 5,
@@ -368,9 +368,28 @@ function Main(props) {
               className="main-header-content-principal__illustration ball"
             />
           </div>
-          <div style={{ fontSize: 22 }}>
+          <div
+            className="main-header-content-container "
+            style={{ padding: 20 }}
+          >
+            <div className="main-header-content-principal ">
+              <h1
+                className="main-header-content-principal__title "
+                style={{ textAlign: "center" }}
+              >
+                How to buy <span>Keeswap </span>
+              </h1>
+              <p className="main-header-content-principal__description typewriter">
+                Procedure to buy Keeswap
+              </p>
+            </div>
+            <video style={{ width: "50%" }} controls="controls">
+              <source src={buy} type="video/mp4" />
+            </video>
+          </div>
+          <div style={{ fontSize: 22, marginTop: 55 }}>
             <h1>User Details</h1>
-            <ul style={{ padding: 30 }}>
+            <ul style={{ padding: 20 }}>
               <li>
                 Total Token :{" "}
                 {getUserDetails === ""
@@ -380,7 +399,7 @@ function Main(props) {
                     ).toFixed(3)}{" "}
                 KEE
               </li>
-              {/* <li>
+              <li>
                 Recived Token :{" "}
                 {getUserDetails === ""
                   ? "Please Connect To Wallet"
@@ -388,7 +407,7 @@ function Main(props) {
                       getUserDetails.user10perTGE / Math.pow(10, 18)
                     ).toFixed(3)}{" "}
                 KEE
-              </li> */}
+              </li>
               <li>
                 Claimed :{" "}
                 {getUserDetails === ""
@@ -430,6 +449,7 @@ function Main(props) {
               </p>
             </div>
           </div>
+
           {/* Why us */}
           <div className="why-us-section" id="about">
             <div className="why-us-section__content">
@@ -584,6 +604,7 @@ function Main(props) {
             </div>
           </div>
         </section>
+
         {/* Cryptocurrencies section */}
         <section className="cryptocurrencies-section" id="products">
           <h2 className="cryptocurrencies-section__title">
@@ -782,12 +803,11 @@ function Main(props) {
               </li>
               <li className="main-footer-navbar__nav__item">
                 <a
-                  href={whitepaper}
+                  href="/assets/mdesign.png"
                   target="_blank"
-                  rel="noreferrer"
                   className="main-footer-navbar__nav__link"
                 >
-                  Download Pdf
+                  Download whitepaper
                 </a>
               </li>
             </ul>
