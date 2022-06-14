@@ -806,6 +806,7 @@ function Main(props) {
                   href="/assets/KeeSwap-whitepaper.pdf"
                   target="_blank"
                   className="main-footer-navbar__nav__link"
+                  download
                 >
                   Download whitepaper
                 </a>
