@@ -9,6 +9,7 @@ import cardicon2 from "./assets/cardicon2.png";
 import cardicon3 from "./assets/cardicon3.png";
 import side1 from "./assets/side1.png";
 import side2 from "./assets/side2.png";
+import pdf from "./assets/KeeSwap-whitepaper.pdf";
 import bnb from "./assets/binance.png";
 import keeToken from "./assets/keetoken.png";
 import side3 from "./assets/side3.png";
@@ -802,11 +803,10 @@ function Main(props) {
                 <h3 className="main-footer-navbar__nav__title">Resources</h3>
               </li>
               <li className="main-footer-navbar__nav__item">
-           <a
-                  href="/assets/KeeSwap-whitepaper.pdf"
+        <a
+                  href={pdf}
                   target="_blank"
                   className="main-footer-navbar__nav__link"
-                  download
                 >
                   Download whitepaper
                 </a>
