@@ -802,8 +802,8 @@ function Main(props) {
                 <h3 className="main-footer-navbar__nav__title">Resources</h3>
               </li>
               <li className="main-footer-navbar__nav__item">
-                <a
-                  href="/assets/mdesign.png"
+           <a
+                  href="/assets/KeeSwap-whitepaper.pdf"
                   target="_blank"
                   className="main-footer-navbar__nav__link"
                 >
