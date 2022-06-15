@@ -1,5 +1,5 @@
-
-
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from "react";
 
 import logo from "./assets/logokeeswapfinal.png";
@@ -9,9 +9,9 @@ import cardicon2 from "./assets/cardicon2.png";
 import cardicon3 from "./assets/cardicon3.png";
 import side1 from "./assets/side1.png";
 import side2 from "./assets/side2.png";
-import pdf from "./assets/KeeSwap-whitepaper.pdf";
 import bnb from "./assets/binance.png";
 import keeToken from "./assets/keetoken.png";
+import pdf from "./assets/KeeSwap-whitepaper.pdf";
 import side3 from "./assets/side3.png";
 import Swal from "sweetalert2";
 import bgImg2 from "./assets/mdesign2.png";
@@ -56,7 +56,13 @@ function Main(props) {
       setKees("");
     }
     if (props.metamaskAddress != "") {
-      getDetails();
+      let res = await new web3_.eth.Contract(icoAbi, ico).methods
+        .ClaimTrackDataset(props.metamaskAddress)
+        .call();
+
+      console.log("in this", res);
+      setUserDetails(res);
+      await getDetails();
     }
   }, [props.metamaskAddress]);
   useEffect(() => {
@@ -337,7 +343,6 @@ function Main(props) {
                 <a
                   className="main-header-navbar__nav__link disconnectButton"
                   style={{
-          
                     borderRadius: "20px",
                     border: "1px solid green",
                     padding: 5,
@@ -391,6 +396,7 @@ function Main(props) {
           <div style={{ fontSize: 22, marginTop: 55 }}>
             <h1>User Details</h1>
             <ul style={{ padding: 20 }}>
+              {console.log(getUserDetails)}
               <li>
                 Total Token :{" "}
                 {getUserDetails === ""
@@ -803,7 +809,7 @@ function Main(props) {
                 <h3 className="main-footer-navbar__nav__title">Resources</h3>
               </li>
               <li className="main-footer-navbar__nav__item">
-        <a
+                <a
                   href={pdf}
                   target="_blank"
                   className="main-footer-navbar__nav__link"
