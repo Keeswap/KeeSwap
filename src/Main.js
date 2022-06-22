@@ -475,7 +475,7 @@ function Main(props) {
 
               <div className="flexDiv">
                 <div>
-                  {!icoOver ? (
+                  {icoOver ? (
                     <>
                       <h3
                         className="why-us-section__content__title"
